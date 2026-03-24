@@ -5,6 +5,7 @@ const TILE_SIZE: u32 = 64; // 64x64 tiles
 const WALK_FRAMES: usize = 9; // 9 columns per walking row
 const MOVE_SPEED: f32 = 140.0; // pixels per second
 const ANIM_DT: f32 = 0.1; // frames per second (~10 FPS)
+const PLAYER_Z: f32 = 20.0;
 
 #[derive(Component)]
 struct Player;
@@ -60,7 +61,7 @@ fn spawn_player(
                 index: start_index,
             },
         ),
-        Transform::from_translation(Vec3::ZERO),
+        Transform::from_translation(Vec3::new(0.0, 0.0, PLAYER_Z)).with_scale(Vec3::splat(0.8)),
         Player,
         AnimationState {
             facing: initial_facing,
@@ -131,13 +132,13 @@ fn animate_player(
     // Compute the target row and current position in the atlas (column/row within the 9-column row)
     let target_row = row_zero_based(anim.facing);
     let mut current_col = atlas.index % WALK_FRAMES;
-    let mut current_row = atlas.index / WALK_FRAMES;
+    let current_row = atlas.index / WALK_FRAMES;
 
     // If the facing changed (or we weren't on a walking row), snap to the first frame of the target row
     if current_row != target_row {
         atlas.index = row_start_index(anim.facing);
         current_col = 0;
-        current_row = target_row;
+        // current_row = target_row;
         timer.reset();
     }
 
