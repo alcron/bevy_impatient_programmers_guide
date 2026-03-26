@@ -1,8 +1,5 @@
 use crate::map::tilemap::TILEMAP;
-use bevy::{
-    prelude::*,
-    sprite::{self, Anchor},
-};
+use bevy::prelude::*;
 use bevy_procedural_tilemaps::prelude::*;
 
 #[derive(Clone)]
