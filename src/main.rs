@@ -5,9 +5,13 @@ use bevy::{
 };
 use bevy_procedural_tilemaps::prelude::*;
 use characters::CharactersPlugin;
+use state::StatePlugin;
 
 mod characters;
+mod collision;
+mod config;
 mod map;
+mod state;
 
 fn main() {
     let map_size = map_pixel_dimensions();
@@ -30,10 +34,12 @@ fn main() {
                 })
                 .set(ImagePlugin::default_nearest()),
             ProcGenSimplePlugin::<Cartesian3D, Sprite>::default(),
+            StatePlugin,
+            collision::CollisionPlugin,
             CharactersPlugin,
         ))
         .add_systems(Startup, (setup_camera, setup_generator))
-        .add_systems(Update, close_on_esc)
+        // .add_systems(Update, close_on_esc)
         .run();
 }
 

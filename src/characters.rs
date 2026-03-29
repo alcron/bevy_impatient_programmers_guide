@@ -1,8 +1,14 @@
 pub mod animation;
+pub mod collider;
 pub mod config;
-pub mod movement;
+pub mod facing;
+pub mod input;
+pub mod physics;
+mod rendering;
 pub mod spawn;
+pub mod state;
 
+use crate::state::GameState;
 use bevy::prelude::*;
 use bevy_common_assets::ron::RonAssetPlugin;
 use config::CharactersList;
@@ -17,13 +23,17 @@ impl Plugin for CharactersPlugin {
             .add_systems(
                 Update,
                 (
-                    spawn::initialize_player_character,
+                    input::handle_player_input,
                     spawn::switch_character,
-                    movement::move_player,
-                    movement::update_jump_state,
-                    animation::animate_characters,
-                    animation::update_animation_flags,
-                ),
+                    input::update_jump_state,
+                    animation::on_state_change_update_animation,
+                    collider::validate_movement,
+                    physics::apply_velocity,
+                    rendering::update_player_depth,
+                    animation::animations_playback,
+                )
+                    .chain()
+                    .run_if(in_state(GameState::Playing)),
             );
     }
 }
