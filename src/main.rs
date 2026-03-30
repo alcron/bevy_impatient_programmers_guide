@@ -1,23 +1,24 @@
-use crate::map::generate::{map_pixel_dimensions, setup_generator};
+use crate::camera::CameraPlugin;
+use crate::map::generate::setup_generator;
 use bevy::{
     prelude::*,
-    window::{Window, WindowPlugin, WindowResolution},
+    window::{MonitorSelection, Window, WindowMode, WindowPlugin},
 };
 use bevy_procedural_tilemaps::prelude::*;
 use characters::CharactersPlugin;
 use state::StatePlugin;
 
+mod camera;
 mod characters;
 mod collision;
 mod config;
+mod inventory;
 mod map;
 mod state;
 
 fn main() {
-    let map_size = map_pixel_dimensions();
-
     App::new()
-        .insert_resource(ClearColor(Color::WHITE))
+        .insert_resource(ClearColor(Color::BLACK))
         .add_plugins((
             DefaultPlugins
                 .set(AssetPlugin {
@@ -26,7 +27,7 @@ fn main() {
                 })
                 .set(WindowPlugin {
                     primary_window: Some(Window {
-                        resolution: WindowResolution::new(map_size.x as u32, map_size.y as u32),
+                        mode: WindowMode::BorderlessFullscreen(MonitorSelection::Current),
                         resizable: false,
                         ..default()
                     }),
@@ -35,23 +36,21 @@ fn main() {
                 .set(ImagePlugin::default_nearest()),
             ProcGenSimplePlugin::<Cartesian3D, Sprite>::default(),
             StatePlugin,
-            collision::CollisionPlugin,
+            CameraPlugin,
             CharactersPlugin,
+            inventory::InventoryPlugin,
+            collision::CollisionPlugin,
         ))
-        .add_systems(Startup, (setup_camera, setup_generator))
-        // .add_systems(Update, close_on_esc)
+        .add_systems(Startup, setup_generator)
+        .add_systems(Update, close_on_f1)
         .run();
 }
 
-fn setup_camera(mut commands: Commands) {
-    commands.spawn(Camera2d);
-}
-
-fn close_on_esc(
+fn close_on_f1(
     keyboard_input: Res<ButtonInput<KeyCode>>,
     mut app_exit_events: MessageWriter<AppExit>,
 ) {
-    if keyboard_input.just_pressed(KeyCode::Escape) {
+    if keyboard_input.just_pressed(KeyCode::F1) {
         app_exit_events.write(AppExit::Success);
     }
 }

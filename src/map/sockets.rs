@@ -78,7 +78,6 @@ pub fn create_sockets(socket_collection: &mut SocketCollection) -> TerrainSocket
             water_and_void: new_socket(),
             ground_up: new_socket(),
         },
-        // Line update alert
         props: PropsLayerSockets {
             layer_up: new_socket(),
             layer_down: new_socket(),

@@ -1,5 +1,6 @@
 // src/map/rules.rs
 use crate::collision::TileType;
+use crate::inventory::ItemKind;
 use crate::map::assets::SpawnableAsset;
 use crate::map::models::TerrainModelBuilder;
 use crate::map::sockets::*;
@@ -623,19 +624,35 @@ pub fn build_props_layer(
     // Plants
     terrain_model_builder.create_model(
         plant_prop.clone(),
-        vec![SpawnableAsset::new("plant_1").with_tile_type(TileType::Grass)],
+        vec![
+            SpawnableAsset::new("plant_1")
+                .with_tile_type(TileType::Grass)
+                .with_pickable(ItemKind::Plant1),
+        ],
     );
     terrain_model_builder.create_model(
         plant_prop.clone(),
-        vec![SpawnableAsset::new("plant_2").with_tile_type(TileType::Grass)],
+        vec![
+            SpawnableAsset::new("plant_2")
+                .with_tile_type(TileType::Grass)
+                .with_pickable(ItemKind::Plant2),
+        ],
     );
     terrain_model_builder.create_model(
         plant_prop.clone(),
-        vec![SpawnableAsset::new("plant_3").with_tile_type(TileType::Grass)],
+        vec![
+            SpawnableAsset::new("plant_3")
+                .with_tile_type(TileType::Grass)
+                .with_pickable(ItemKind::Plant3),
+        ],
     );
     terrain_model_builder.create_model(
         plant_prop.clone(),
-        vec![SpawnableAsset::new("plant_4").with_tile_type(TileType::Grass)],
+        vec![
+            SpawnableAsset::new("plant_4")
+                .with_tile_type(TileType::Grass)
+                .with_pickable(ItemKind::Plant4),
+        ],
     );
 
     // Add connection rules
