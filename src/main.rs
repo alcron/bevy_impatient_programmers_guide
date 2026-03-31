@@ -11,9 +11,11 @@ use state::StatePlugin;
 mod camera;
 mod characters;
 mod collision;
+mod combat;
 mod config;
 mod inventory;
 mod map;
+mod particles;
 mod state;
 
 fn main() {
@@ -40,6 +42,8 @@ fn main() {
             CharactersPlugin,
             inventory::InventoryPlugin,
             collision::CollisionPlugin,
+            combat::CombatPlugin,
+            particles::ParticlesPlugin,
         ))
         .add_systems(Startup, setup_generator)
         .add_systems(Update, close_on_f1)

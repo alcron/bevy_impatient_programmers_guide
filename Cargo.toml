@@ -8,6 +8,7 @@ bevy = { version = "0.18.1", features = ["dynamic_linking", "file_watcher", "exp
 bevy_common_assets = { version = "0.16.0", features = ["ron"] }
 bevy_procedural_tilemaps = "0.3.0"
 serde = { version = "1.0.228", features = ["derive"] }
+rand = "0.8"
 
 # Enable a small amount of optimization in the dev profile.
 [profile.dev]
